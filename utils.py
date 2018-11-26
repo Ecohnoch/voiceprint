@@ -27,6 +27,7 @@ def get_train_batch(train_file, batch_size):
     for i in range(batch_size):
         s = random.choice(train_file)
         u = os.path.join(s, random.choice(os.listdir(s)))
+        u = os.path.join(u, random.choice(os.listdir(u)))
         fs, signal = read_wav(u)
         # take two seconds
         if len(signal) < 2*fs:
@@ -64,7 +65,14 @@ def get_test_batch(test_file, batch_size):
     test_labels = []
     for s in test_file:
         u_i = 0
-        for u in [os.path.join(s, f) for f in random.sample(os.listdir(s),15)]:
+
+        all_wav_files = []
+        for wav_dir in os.listdir(s):
+            full_wav_dir = os.path.join(s, wav_dir)
+            for wav_file in full_wav_dir:
+                all_wav_files.append(os.path.join(full_wav_dir, wav_file))
+
+        for u in [f for f in random.sample(all_wav_files,15)]:
             fs, signal = read_wav(u)
             # take two seconds
             if len(signal) < 2*fs:
@@ -82,7 +90,13 @@ def get_test_batch(test_file, batch_size):
 
     for i in range(2*batch_size-15*len(test_file)):
         s = random.choice(test_file)
-        u = os.path.join(s, random.choice(os.listdir(s)))
+        all_wav_files = []
+        for wav_dir in os.listdir(s):
+            full_wav_dir = os.path.join(s, wav_dir)
+            for wav_file in full_wav_dir:
+                all_wav_files.append(os.path.join(full_wav_dir, wav_file))
+
+        u = random.choice(all_wav_files)
         fs, signal = read_wav(u)
         # take two seconds
         if len(signal) < 2*fs:
