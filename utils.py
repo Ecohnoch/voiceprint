@@ -69,7 +69,7 @@ def get_test_batch(test_file, batch_size):
         all_wav_files = []
         for wav_dir in os.listdir(s):
             full_wav_dir = os.path.join(s, wav_dir)
-            for wav_file in full_wav_dir:
+            for wav_file in os.listdir(full_wav_dir):
                 all_wav_files.append(os.path.join(full_wav_dir, wav_file))
 
         for u in [f for f in random.sample(all_wav_files,15)]:
@@ -93,7 +93,7 @@ def get_test_batch(test_file, batch_size):
         all_wav_files = []
         for wav_dir in os.listdir(s):
             full_wav_dir = os.path.join(s, wav_dir)
-            for wav_file in full_wav_dir:
+            for wav_file in os.listdir(full_wav_dir):
                 all_wav_files.append(os.path.join(full_wav_dir, wav_file))
 
         u = random.choice(all_wav_files)
